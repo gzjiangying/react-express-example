@@ -1,0 +1,19 @@
+{
+  "apps": [{
+    "name": "myweb",
+    "script": "application.js",
+    "watch": true,
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 4000,
+      "PGCONNSTR": "postgres://dbuser :jiangying@localhost/psg_db",
+      "WEBPACK_DEV_SERVER": "http://10.1.1.31:8080"
+    },
+
+    "env_production": {
+      "NODE_ENV": "production",
+      "PORT": 4000,
+      "DBCONNSTR": "postgres://dx:yohohoho@localhost/shanguo_sdk_production"
+    }
+  }]
+}

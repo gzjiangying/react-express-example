@@ -1,0 +1,5 @@
+{
+  "development": {
+    "database_postgres": "postgres://dbuser:jiangying@localhost/mydb"
+  }
+}

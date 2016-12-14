@@ -1,0 +1,12 @@
+:global(.navbar-brand) > img {
+  max-height: 30px;
+}
+
+.container--app {
+    margin-top: 60px;
+    min-height: 100px;
+}
+.p{
+  word-wrap:break-word;
+  word-break:break-all;
+}
