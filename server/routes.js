@@ -14,7 +14,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').__express);
 app.set('view engine', 'html');
 
-let script_src = '/public/bundle.js';
+let script_src = '../public/bundle.js';
 if (process.env.NODE_ENV === 'development') {
   script_src = `${process.env.WEBPACK_DEV_SERVER}/bundle.js`;
 }

@@ -21,8 +21,8 @@ class App extends Component {
   constructor (props) {
     super(props);
     this.state = {showModal: false};
-    this.close = this.close.bind(this);
-    this.open = this.open.bind(this);
+    this.model_close = this.model_close.bind(this);
+    this.model_open = this.model_open.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
   };
@@ -34,11 +34,11 @@ class App extends Component {
 
     }
   };
-  close() {
+  model_close() {
     this.setState({ showModal: false });
   };
 
-  open() {
+  model_open() {
     this.setState({ showModal: true });
   };
   async login() {
@@ -56,11 +56,18 @@ class App extends Component {
    if (account.role !== 'guest') {
     login_name = account.login_name;
    }
-    let login = 
-       <NavDropdown eventKey={4} title="登陆" id="basic-nav-dropdown">
-                <MenuItem eventKey={4.1} onClick={this.open}>登陆</MenuItem>
-                <MenuItem eventKey={4.2}  href="/register">注册</MenuItem>
-         <Modal show={this.state.showModal} onHide={this.close}>
+    let login_out = null;
+    if(account.role !== 'guest'){
+      login_out =  <NavDropdown eventKey={2} title={login_name} id="basic-nav-dropdown">
+                <MenuItem eventKey={2.1} onClick={this.logout}>退出</MenuItem>
+                <MenuItem eventKey={2.2} href="/complain">发表吐槽</MenuItem>
+                <MenuItem eventKey={2.3}>用户信息</MenuItem>
+            </NavDropdown>;
+    }else{
+      login_out =  <NavDropdown eventKey={1} title="登陆" id="basic-nav-dropdown">
+                <MenuItem eventKey={1.1} onClick={this.model_open}>登陆</MenuItem>
+                <MenuItem eventKey={1.2}  href="/register">注册</MenuItem>
+         <Modal show={this.state.showModal} onHide={this.model_close}>
           <Modal.Header closeButton>
             <Modal.Title>登陆</Modal.Title>
           </Modal.Header>
@@ -79,25 +86,14 @@ class App extends Component {
             </form>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.close}>Close</Button>
+              <Button onClick={this.model_close}>Close</Button>
             </Modal.Footer>
           
-        </Modal>
-            </NavDropdown>;
-    
-    let logout = <NavDropdown eventKey={4} title={login_name} id="basic-nav-dropdown">
-                <MenuItem eventKey={4.1} onClick={this.logout}>退出</MenuItem>
-                <MenuItem eventKey={4.2} href="/complain">发表吐槽</MenuItem>
-                <MenuItem eventKey={4.3}>用户信息</MenuItem>
-            </NavDropdown>;
-    let login_out = null;
-    if(account.role !== 'guest'){
-      login_out = logout;
-    }else{
-      login_out = login;
+            </Modal>
+          </NavDropdown>;
     }
     return (
-      <div>
+      <div key="apps" >
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
@@ -105,8 +101,8 @@ class App extends Component {
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
-            <NavItem eventKey={1} href="/wish">表白墙</NavItem>
-            <NavItem eventKey={2} href="/advertise">广告招商</NavItem>
+            <NavItem eventKey={3} href="/wish">表白墙</NavItem>
+            <NavItem eventKey={4} href="/advertise">广告招商</NavItem>
           </Nav>
           <Nav pullRight>
           　 <Navbar.Form pullLeft>

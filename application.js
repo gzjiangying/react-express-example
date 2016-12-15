@@ -24,7 +24,6 @@ process.on('SIGHUP', function() {
 });
 
 console.log({
-  REDIS_DATABASE: process.env.REDIS_DATABASE,
   PORT: process.env.PORT,
   NODE_ENV: process.env.NODE_ENV
 });

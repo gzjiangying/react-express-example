@@ -1,10 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
-
+// 'webpack-dev-server/client?http://10.1.1.31:8080',
 module.exports = {
   entry: [
     'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://10.1.1.31:8080',
     'babel-polyfill',
     path.join(__dirname, 'client/index')
   ],

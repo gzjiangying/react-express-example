@@ -34,18 +34,20 @@ import {
 class Home extends Component {
   constructor (props) {
     super(props),
-    this.state = {data:{},activePage: 1};
+    this.state = {data:{},activePage: 1,type_name:"technology"};
+    this.handleSelect = this.handleSelect.bind(this);
   };
   async componentWillMount() {
      let result =  await fetch('/api/complain?type=technology',{
         method: 'GET',});
       if( result.status === "success")
       {
-        console.log(result.data);
+      
         this.setState({data:result.data});
         this.setState({ type_name:"technology"});
       }
   };
+
   async change_type(type_name,eventKey) {
    let result =  await fetch(`/api/complain?type=${type_name}&page=${eventKey}`,{
         method: 'GET',});
@@ -59,42 +61,56 @@ class Home extends Component {
         activePage: eventKey
       });
   };
+
   async show_detail(con_id) {
     let { detail } = this.props;
     detail(con_id);
+  };
+
+  async handleSelect(eventKey) {
+    
+     let result =  await fetch(`/api/complain?type=${eventKey}&page=1`,{
+        method: 'GET',});
+      if( result.status === "success")
+      {
+        this.setState({data:result.data});
+        this.setState({type_name:`${eventKey}`});
+      }
   };
   render() {
       console.log(this.state.data);
       if(!this.state.data.count&&this.state.data.count!==0){
         return <h1>加载中!</h1>
-      }
-      let line = parseInt(this.state.data.count/5);
+      }else{
+        let line = parseInt(this.state.data.count/5);
       if(this.state.data.count > line*5){
         line =line +1;
       }
       console.log(line);
       let items = this.state.data.rows.map((item, index) => {
-          return <Media>
-                     <Media.Left>
-                        <img width={64} height={64} src={require('../assets/1.jpg')} alt="Image"/>
-                      </Media.Left>
-                      <Media.Body>
-                        <Button bsStyle="link" onClick={this.show_detail.bind(this,item.id)}>{item.title}</Button>
-                        <p>{item.detail} </p>
-                          <Row className="show-grid">
-                            <Col sm={12} md={6}>
-                              <Label>{item.time}</Label>
-                              <Button bsStyle="link">{item.login_name}</Button>
-                            </Col>
-                            <Col sm={12} md={6}>
-                              <Label>{item.recommend}</Label>
-                            </Col>
-                          </Row>
-                      </Media.Body>
-                    </Media>
+          return  <div key={index}>
+            <Media>
+             <Media.Left>
+                <img width={64} height={64} src={require('../assets/1.jpg')} alt="Image"/>
+              </Media.Left>
+              <Media.Body>
+                <Button bsStyle="link" onClick={this.show_detail.bind(this,item.id)}>{item.title}</Button>
+                <p>{item.detail} </p>
+                  <Row className="show-grid">
+                    <Col sm={12} md={6}>
+                      <Label>{item.time}</Label>
+                      <Button bsStyle="link">{item.login_name}</Button>
+                    </Col>
+                    <Col sm={12} md={6}>
+                      <Label>{item.recommend}</Label>
+                    </Col>
+                  </Row>
+              </Media.Body>
+            </Media>
+          </div>
         });
       if(this.state.data.rows.length<1){
-        items = <h1>还没人发表赶紧发表自己的想法吧！</h1>
+        items = <h1>还没人发表赶紧发表自己的想法吧！</h1>;
       }
      let tab_pane = <Tab.Pane eventKey={this.state.type_name}>
                 <Row className="show-grid">
@@ -137,38 +153,35 @@ class Home extends Component {
             </Carousel>
       </Row>
       <Row className="show-grid">
-          <Tab.Container id="tabs-with-dropdown" defaultActiveKey="technology">
+          <Tab.Container id="tabs-with-dropdown_s" defaultActiveKey={this.state.type_name} onSelect={this.handleSelect}>
            <Row className="clearfix">
-            <Col sm={12}>
             <Nav bsStyle="tabs">
-              <NavItem eventKey="technology" onClick={this.change_type.bind(this,"technology",1)}> 技术畅聊 </NavItem>
-              <NavItem eventKey="educational" onClick={this.change_type.bind(this,"educational",1)}> 教育问题 </NavItem>
-              <NavItem eventKey="life" onClick={this.change_type.bind(this,"life")}> 生活问题</NavItem>
-              <NavItem eventKey="food" onClick={this.change_type.bind(this,"food",1)}> 食品安全 </NavItem>
-              <NavItem eventKey="belief" onClick={this.change_type.bind(this,"belief")}> 信仰问题 </NavItem>
-              <NavItem eventKey="violence" onClick={this.change_type.bind(this,"violence")}> 暴力执勤</NavItem>
-              <NavItem eventKey="delinquency" onClick={this.change_type.bind(this,"delinquency")}> 违法犯罪 </NavItem>
-              <NavItem eventKey="drug" onClick={this.change_type.bind(this,"drug")}> 药品安全与医院 </NavItem>
-              <NavItem eventKey="internet" onClick={this.change_type.bind(this,"internet")}> 互联网黑</NavItem>
-              <NavItem eventKey="factory" onClick={this.change_type.bind(this,"factory")}> 黑心厂商 </NavItem>
-              <NavItem eventKey="history" onClick={this.change_type.bind(this,"history")}> 正看历史 </NavItem>
-              <NavDropdown eventKey="12" title="更多" id="nav-dropdown-within-tab">
-                <MenuItem eventKey="news" onClick={this.change_type.bind(this,"news")}>天下大事</MenuItem>
-                <MenuItem eventKey="1unclassified" onClick={this.change_type.bind(this,"1unclassified")}>其他</MenuItem>
+              <NavItem eventKey="technology" > 技术畅聊 </NavItem>
+              <NavItem eventKey="educational" > 教育问题 </NavItem>
+              <NavItem eventKey="life" > 生活问题</NavItem>
+              <NavItem eventKey="food" > 食品安全 </NavItem>
+              <NavItem eventKey="belief" > 信仰问题 </NavItem>
+              <NavItem eventKey="violence" > 暴力执勤</NavItem>
+              <NavItem eventKey="delinquency" > 违法犯罪 </NavItem>
+              <NavItem eventKey="drug" > 药品安全与医院 </NavItem>
+              <NavItem eventKey="internet" > 互联网黑</NavItem>
+              <NavItem eventKey="factory" > 黑心厂商 </NavItem>
+              <NavItem eventKey="history" > 正看历史 </NavItem>
+              <NavDropdown eventKey="12" title="更多" id="nav-dropdown-within_s">
+                <MenuItem eventKey="news" >天下大事</MenuItem>
+                <MenuItem eventKey="1unclassified" >其他</MenuItem>
               </NavDropdown>
             </Nav>
-            </Col>
-             <Col sm={12}>
-             <Tab.Content animation>
+             <Tab.Content animation id="nav-dropdown-within_s_c">
               {tab_pane}
-              </Tab.Content>
-            </Col>
+            </Tab.Content>
           </Row>
           </Tab.Container>
       </Row>
       {page}
     </div>
     );
+    }
   }
 };
 

@@ -45,7 +45,6 @@ render((
         <Route path="/register" component={Register}/>
         <Route path="/show" component={Show}/>
         <Route path="*" component={PageNotFound}>
-          {/* using this makes the root router match */}
         </Route>
       </Route>
     </Router>
