@@ -76,15 +76,20 @@ class Wish extends Component {
   
     if(!this.state.data.count&&this.state.data.count!==0){
       return <h1>加载中!</h1>
+    } else{
+
     }
 
-     let data = this.state.data;
+    let data = this.state.data;
 
     let line = parseInt(data.count/5);
     if(this.state.data.count > line*5){
       line =line +1;
     }
-     let page =  <Pagination prev next first last
+    let page = null;
+    let wish = null;
+    if(data.count !==0){
+      page =  <Pagination prev next first last
         ellipsis
         boundaryLinks
         items={line}
@@ -92,16 +97,17 @@ class Wish extends Component {
         activePage={this.state.activePage}
         onSelect={this.change_type.bind(this)} />
         console.log(data);
-    let wish = data.data.map((item, index) => {
-          return  <div key={`${index}`}>
-                <Well>
-                  <Label bsStyle="primary">发表人</Label>
-                  <Button bsStyle="link" >{item.name}</Button>
-                  <p className={style['p']}>{item.wish}</p>
-                  <Label　bsStyle="danger">{item.time}</Label>
-                </Well>
-            </div>
-        });
+      wish = data.data.map((item, index) => {
+        return  <div key={`${index}`}>
+              <Well>
+                <Label bsStyle="primary">发表人</Label>
+                <Button bsStyle="link" >{item.name}</Button>
+                <p className={style['p']}>{item.wish}</p>
+                <Label　bsStyle="danger">{item.time}</Label>
+              </Well>
+          </div>
+      });
+    }
     return (
       <div >
       <Label　bsStyle="danger">表白留言</Label>
