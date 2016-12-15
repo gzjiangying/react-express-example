@@ -160,11 +160,12 @@ let show = function(req, res) {
         });
         return;
       }
+      let user = yield db.login.findById(complain.longin_id);
       jrh.jsend_success(res, {
         id: complain.id,
         title: complain.title,
         type: complain.type,
-        login_name: complain.longin_id,
+        login_name: user.login_name,
         data: complain.data,
         status: complain.status,
         comment: complain.comment,
