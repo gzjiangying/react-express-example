@@ -88,16 +88,16 @@ class Home extends Component {
       }
       console.log(line);
       let items = this.state.data.rows.map((item, index) => {
-          return  <div key={index}>
+          return  <div key={index} className={'container'}>
             <Media>
              <Media.Left>
-                <img width={64} height={64} src={require('../assets/1.jpg')} alt="Image"/>
-              </Media.Left>
+              <img width={64} height={64} src={require('../assets/1.jpg')} alt="Image"/>
+            </Media.Left>
               <Media.Body>
                 <Button bsStyle="link" onClick={this.show_detail.bind(this,item.id)}>{item.title}</Button>
                 <p>{item.detail} </p>
                   <Row className="show-grid">
-                    <Col sm={12} md={6}>
+                    <Col sm={11} md={6}>
                       <Label>{item.time}</Label>
                       <Button bsStyle="link">{item.login_name}</Button>
                     </Col>
@@ -152,7 +152,6 @@ class Home extends Component {
               </Carousel.Item>
             </Carousel>
       </Row>
-      <Row className="show-grid">
           <Tab.Container id="tabs-with-dropdown_s" defaultActiveKey={this.state.type_name} onSelect={this.handleSelect}>
            <Row className="clearfix">
             <Nav bsStyle="tabs">
@@ -177,7 +176,6 @@ class Home extends Component {
             </Tab.Content>
           </Row>
           </Tab.Container>
-      </Row>
       {page}
     </div>
     );
